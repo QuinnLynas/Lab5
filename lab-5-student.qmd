@@ -146,7 +146,7 @@ included in the `teacher_evals_codebook.pdf`.
 ```{r}
 #| label: setup
 # code chunk for loading packages
-
+library(tidyverse)
 ```
 
 **2. Load in the `teacher_evals` data.** 
@@ -154,7 +154,7 @@ included in the `teacher_evals_codebook.pdf`.
 ```{r}
 #| label: load-data
 # code chunk for importing the data
-
+teacher_evals <- read_csv("data-raw/teacher_evals.csv")
 ```
 
 ### Data Inspection + Summary
@@ -164,16 +164,20 @@ included in the `teacher_evals_codebook.pdf`.
 ```{r}
 #| label: explore-data
 # you may want to use code to answer this question
-
+head(teacher_evals, 8)
 ```
+
+> The dataset includes information about individual teachers and courses. There are 22 columns of information and 8015 rows. 
 
 **4. What is the unit of observation (i.e. a single row in the dataset) identified by?**
 
 ```{r}
 #| label: row-identification
 # you may want to use code to answer this question
-
+head(teacher_evals, 6)
 ```
+
+> It appears as if one row in the dataset measures answers for a single question for a particular course.
 
 **5. Use _one_ `dplyr` pipeline to clean the data by:**
 
@@ -187,7 +191,14 @@ included in the `teacher_evals_codebook.pdf`.
 ```{r}
 #| label: data-cleaning
 # code chunk for Q4
+teacher_evals_clean <- teacher_evals |>
+  rename(sex = gender) |>
+  filter(no_participants > 10) |>
+  mutate(teacher_id = as.character(teacher_id), 
+         question_no = as.character(question_no)) |>
+  select(course_id, teacher_id, question_no, no_participants, resp_share, SET_score_avg, percent_failed_cur, academic_degree, seniority, sex)
 
+write.csv(teacher_evals_clean, "data-clean/teacher_evals_clean.csv")
 ```
 
 **6. How many unique instructors and unique courses are present in the cleaned dataset?**
@@ -195,8 +206,17 @@ included in the `teacher_evals_codebook.pdf`.
 ```{r}
 #| label: unique-courses
 # code chunk for Q5
+dim(teacher_evals_clean |>
+  select(teacher_id) |>
+  summarise(unique(teacher_id)))
+  
+dim(teacher_evals_clean |>
+  select(course_id) |>
+  summarise(unique(course_id)))
 
 ```
+
+> There are 294 unique instructors and 921 unique courses.
 
 **7. One teacher-course combination has some missing values, coded as `NA`. Which instructor has these missing values? Which course? What variable are the missing values in?**
 
