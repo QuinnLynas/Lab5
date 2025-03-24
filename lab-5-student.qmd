@@ -223,6 +223,9 @@ dim(teacher_evals_clean |>
 ```{r}
 #| label: uncovering-missing-values
 # code chunk for Q6
+teacher_evals_clean |>
+  filter(if_any(.cols = 2:10, .fns = is.na))
+
 
 ```
 
