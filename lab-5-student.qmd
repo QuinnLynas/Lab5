@@ -229,13 +229,39 @@ teacher_evals_clean |>
 
 ```
 
+> The teacher id is 56347 and course id is PAB3SE004PA. The missing values are in the variable percent_failed_cur.
+
 **8. What are the demographics of the instructors in this study? Investigate the variables `academic_degree`, `seniority`, and `sex` and summarize your findings in ~3 complete sentences.**
 
 ```{r}
 #| label: exploring-demographics-of-instructors
 # code chunk for Q7
+level = list("no_dgr", "ma", "dr", "prof")
+p1 <- ggplot(data = teacher_evals_clean, aes(x = factor(academic_degree, levels = level), fill = academic_degree))+ 
+  geom_bar() + 
+  theme_bw() + 
+  labs(x = "Academic Degree", y = "Count", 
+       title = "Academic Achievement for Professors") + 
+  guides(fill = "none") + 
+  scale_fill_viridis_d(option = "inferno", end = 0.8)
 
+p2 <- ggplot(data = teacher_evals_clean, aes(x = seniority, fill = sex)) + 
+  stat_density() + 
+  theme_bw() + 
+  facet_wrap(~sex) + 
+  labs(x = "Seniority",
+       y = "Density",
+       title = "Density for Seniority between Male and Female Professors") + 
+  guides(fill = "none")
+
+knitr::kable(mosaicCore::df_stats(seniority ~ sex, data = teacher_evals_clean))
+table(teacher_evals_clean$sex)/length(teacher_evals_clean$sex)
+
+ggpubr::ggarrange(p1, p2, nrow = 2)
 ```
+
+> We can see that the majority of professors have at least a masters degree, with most of them having a PhD. Additionally, we can see that many of the professors are new. We have a mean seniority of 5.33 for female and 5.67 for male professors. The difference between male and female professors is almost negligible, 48% are female and 52$ are male.
+
 
 **9. Each course seems to have used a different subset of the nine evaluation questions. How many teacher-course combinations asked all nine questions?**
 
