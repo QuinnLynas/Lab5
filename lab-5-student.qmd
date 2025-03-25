@@ -1,7 +1,6 @@
 ---
 author: "Quinn Lynas"
-format: "html"
-
+format: gfm
 ---
 
 
