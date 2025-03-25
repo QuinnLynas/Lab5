@@ -183,22 +183,90 @@ To https://github.com/atheobold/introduction-to-quarto-allison-theobold.git
 <p>Before tackling the problems below, study the description of each variable included in the <code>teacher_evals_codebook.pdf</code>.</p>
 <p><strong>1. Load the appropriate R packages for your analysis.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for loading packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for loading packages</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
 </div>
 <p><strong>2. Load in the <code>teacher_evals</code> data.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for importing the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for importing the data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>teacher_evals <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data-raw/teacher_evals.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 8015 Columns: 22
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (5): course_id, weekday, time_of_day, academic_degree, gender
+dbl (17): teacher_id, question_no, no_participants, resp_share, SET_score_av...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
 </div>
 <section id="data-inspection-summary" class="level3">
 <h3 class="anchored" data-anchor-id="data-inspection-summary">Data Inspection + Summary</h3>
 <p><strong>3. Provide a brief overview (~4 sentences) of the dataset.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may want to use code to answer this question</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may want to use code to answer this question</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(teacher_evals, <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 22
+  course_id  teacher_id question_no no_participants resp_share SET_score_avg
+  &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 0000-BHP        54655         901             255     0.212           4.22
+2 0000-BHP        54655         903             255     0.208           3.68
+3 0000-BHP        54655         904             255     0.212           3.74
+4 0000-BHP        54655         905             255     0.208           3.30
+5 0000-BHP        54655         907             255     0.208           3.68
+6 0000-BW-NP       3432         902             998     0.0411          4.05
+7 0000-BW-NP       3432         903             998     0.0421          3.95
+8 0000-BW-NP       3432         906             998     0.0411          4.15
+# ℹ 16 more variables: stud_grade_avg &lt;dbl&gt;, stud_grade_std &lt;dbl&gt;,
+#   stud_grade_var_coef &lt;dbl&gt;, percent_failed &lt;dbl&gt;, stud_grade_avg_cur &lt;dbl&gt;,
+#   stud_grade_std_cur &lt;dbl&gt;, stud_grade_var_coef_cur &lt;dbl&gt;,
+#   percent_failed_cur &lt;dbl&gt;, class_duration &lt;dbl&gt;, weekday &lt;chr&gt;,
+#   time_of_day &lt;chr&gt;, SET_score_1sem &lt;dbl&gt;, maximum_score &lt;dbl&gt;,
+#   academic_degree &lt;chr&gt;, seniority &lt;dbl&gt;, gender &lt;chr&gt;</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>The dataset includes information about individual teachers and courses. There are 22 columns of information and 8015 rows.</p>
+</blockquote>
 <p><strong>4. What is the unit of observation (i.e.&nbsp;a single row in the dataset) identified by?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may want to use code to answer this question</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may want to use code to answer this question</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(teacher_evals, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 22
+  course_id  teacher_id question_no no_participants resp_share SET_score_avg
+  &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt;           &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 0000-BHP        54655         901             255     0.212           4.22
+2 0000-BHP        54655         903             255     0.208           3.68
+3 0000-BHP        54655         904             255     0.212           3.74
+4 0000-BHP        54655         905             255     0.208           3.30
+5 0000-BHP        54655         907             255     0.208           3.68
+6 0000-BW-NP       3432         902             998     0.0411          4.05
+# ℹ 16 more variables: stud_grade_avg &lt;dbl&gt;, stud_grade_std &lt;dbl&gt;,
+#   stud_grade_var_coef &lt;dbl&gt;, percent_failed &lt;dbl&gt;, stud_grade_avg_cur &lt;dbl&gt;,
+#   stud_grade_std_cur &lt;dbl&gt;, stud_grade_var_coef_cur &lt;dbl&gt;,
+#   percent_failed_cur &lt;dbl&gt;, class_duration &lt;dbl&gt;, weekday &lt;chr&gt;,
+#   time_of_day &lt;chr&gt;, SET_score_1sem &lt;dbl&gt;, maximum_score &lt;dbl&gt;,
+#   academic_degree &lt;chr&gt;, seniority &lt;dbl&gt;, gender &lt;chr&gt;</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>It appears that one row in the dataset measures answers for a single question for a particular course.</p>
+</blockquote>
 <p><strong>5. Use <em>one</em> <code>dplyr</code> pipeline to clean the data by:</strong></p>
 <ul>
 <li><strong>renaming the <code>gender</code> variable <code>sex</code></strong></li>
@@ -208,40 +276,298 @@ To https://github.com/atheobold/introduction-to-quarto-allison-theobold.git
 </ul>
 <p><strong>Assign your cleaned data to a new variable named <code>teacher_evals_clean</code> –- use these data going forward. Save the data as <code>teacher_evals_clean.csv</code> in the <code>data-clean</code> folder.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q4</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="ot">&lt;-</span> teacher_evals <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">sex =</span> gender) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(no_participants <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">teacher_id =</span> <span class="fu">as.character</span>(teacher_id), </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">question_no =</span> <span class="fu">as.character</span>(question_no)) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(course_id, teacher_id, question_no, no_participants, resp_share, SET_score_avg, percent_failed_cur, academic_degree, seniority, sex)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(teacher_evals_clean, <span class="st">"data-clean/teacher_evals_clean.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>6. How many unique instructors and unique courses are present in the cleaned dataset?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q5</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(teacher_id) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">unique</span>(teacher_id)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+dplyr 1.1.0.
+ℹ Please use `reframe()` instead.
+ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+  always returns an ungrouped data frame and adjust accordingly.</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 294   1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(course_id) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">unique</span>(course_id)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in
+dplyr 1.1.0.
+ℹ Please use `reframe()` instead.
+ℹ When switching from `summarise()` to `reframe()`, remember that `reframe()`
+  always returns an ungrouped data frame and adjust accordingly.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 921   1</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>There are 294 unique instructors and 921 unique courses.</p>
+</blockquote>
 <p><strong>7. One teacher-course combination has some missing values, coded as <code>NA</code>. Which instructor has these missing values? Which course? What variable are the missing values in?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q6</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">.fns =</span> is.na))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 10
+  course_id   teacher_id question_no no_participants resp_share SET_score_avg
+  &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+1 PAB3SE004PA 56347      901                      32     0.0312             5
+2 PAB3SE004PA 56347      902                      32     0.0312             5
+3 PAB3SE004PA 56347      903                      32     0.0312             4
+4 PAB3SE004PA 56347      905                      32     0.0312             4
+5 PAB3SE004PA 56347      906                      32     0.0312             3
+6 PAB3SE004PA 56347      907                      32     0.0312             3
+7 PAB3SE004PA 56347      908                      32     0.0312             5
+# ℹ 4 more variables: percent_failed_cur &lt;dbl&gt;, academic_degree &lt;chr&gt;,
+#   seniority &lt;dbl&gt;, sex &lt;chr&gt;</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>The teacher id is 56347 and course id is PAB3SE004PA. The missing values are in the variable percent_failed_cur.</p>
+</blockquote>
 <p><strong>8. What are the demographics of the instructors in this study? Investigate the variables <code>academic_degree</code>, <code>seniority</code>, and <code>sex</code> and summarize your findings in ~3 complete sentences.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q7</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>level <span class="ot">=</span> <span class="fu">list</span>(<span class="st">"no_dgr"</span>, <span class="st">"ma"</span>, <span class="st">"dr"</span>, <span class="st">"prof"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> teacher_evals_clean, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(academic_degree, <span class="at">levels =</span> level), <span class="at">fill =</span> academic_degree))<span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Academic Degree"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Academic Achievement for Professors"</span>) <span class="sc">+</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">end =</span> <span class="fl">0.8</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> teacher_evals_clean, <span class="fu">aes</span>(<span class="at">x =</span> seniority, <span class="at">fill =</span> sex)) <span class="sc">+</span> </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density</span>() <span class="sc">+</span> </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sex) <span class="sc">+</span> </span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Seniority"</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Density for Seniority between Male and Female Professors"</span>) <span class="sc">+</span> </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mosaicCore<span class="sc">::</span><span class="fu">df_stats</span>(seniority <span class="sc">~</span> sex, <span class="at">data =</span> teacher_evals_clean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">response</th>
+<th style="text-align: left;">sex</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">Q1</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">Q3</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">seniority</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5.333542</td>
+<td style="text-align: right;">3.068894</td>
+<td style="text-align: right;">3199</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seniority</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5.671478</td>
+<td style="text-align: right;">3.365936</td>
+<td style="text-align: right;">3464</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
 </div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(teacher_evals_clean<span class="sc">$</span>sex)<span class="sc">/</span><span class="fu">length</span>(teacher_evals_clean<span class="sc">$</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   female      male 
+0.4801141 0.5198859 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ggpubr<span class="sc">::</span><span class="fu">ggarrange</span>(p1, p2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-5-student_files/figure-html/exploring-demographics-of-instructors-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>We can see that the majority of professors have at least a masters degree, with most of them having a PhD. Additionally, we can see that many of the professors are new. We have a mean seniority of 5.33 for female and 5.67 for male professors. The difference between male and female professors is almost negligible, 48% are female and 52$ are male.</p>
+</blockquote>
 <p><strong>9. Each course seems to have used a different subset of the nine evaluation questions. How many teacher-course combinations asked all nine questions?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q8</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teacher_id, course_id) <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 48 × 3
+# Groups:   teacher_id, course_id [48]
+   teacher_id course_id            n
+   &lt;chr&gt;      &lt;chr&gt;            &lt;int&gt;
+ 1 102390     PAM1SP05PA-Z20       9
+ 2 3485       MNB5NP04MN-Z20-w     9
+ 3 3503       FAB1NP-SJO-A         9
+ 4 3521       CII3SP12CI-Z17       9
+ 5 3614       FAB1NP-SJO-A         9
+ 6 3614       MN-B1SP-SJO-A        9
+ 7 3662       CII2SE02CI-L19       9
+ 8 37025      ECB3SE01EC-Z20       9
+ 9 37035      MNB1NP-SJO-A         9
+10 37068      IRB5SP04-PDW         9
+# ℹ 38 more rows</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>There were 48 teacher-course combinations that asked all nine questions.</p>
+</blockquote>
 </section>
 </section>
 <section id="rate-my-professor" class="level2">
 <h2 class="anchored" data-anchor-id="rate-my-professor">Rate my Professor</h2>
 <p><strong>10. Which instructors had the highest and lowest average rating for Question 1 (I learnt a lot during the course.) across all their courses?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q9</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(teacher_id) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(question_no <span class="sc">==</span> <span class="st">"901"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_score =</span> <span class="fu">mean</span>(SET_score_avg)) <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(avg_score) <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Adding missing grouping variables: `teacher_id`</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 744 × 2
+# Groups:   teacher_id [264]
+   teacher_id avg_score
+   &lt;chr&gt;          &lt;dbl&gt;
+ 1 84689              5
+ 2 42362              5
+ 3 42362              5
+ 4 51145              5
+ 5 82918              5
+ 6 40711              5
+ 7 50746              5
+ 8 43898              5
+ 9 60647              5
+10 59546              5
+# ℹ 734 more rows</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The instructors with the lowest average SET score for question 1 are 100132 and 54201. There are a lot of instructors with a high average rating for question 1 across all of their course (many average scores of 5).</p>
+</blockquote>
 <p><strong>11. Which instructors with one year of experience had the highest and lowest average percentage of students failing in the current semester across all their courses?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q10</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(seniority <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">!</span><span class="fu">desc</span>(percent_failed_cur))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 405 × 10
+   course_id   teacher_id question_no no_participants resp_share SET_score_avg
+   &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+ 1 0000-SEM-SE 84689      901                      22     0.0909          5   
+ 2 0000-SEM-SE 84689      902                      22     0.0909          5   
+ 3 0000-SEM-SE 84689      903                      22     0.0909          5   
+ 4 0000-SEM-SE 84689      904                      22     0.0909          5   
+ 5 0000-SEM-SE 84689      905                      22     0.0909          4.5 
+ 6 0000-SEM-SE 84689      906                      22     0.0909          5   
+ 7 0000-SEM-SE 84689      907                      22     0.0909          5   
+ 8 0000-SEM-SE 84689      909                      22     0.0909          5   
+ 9 0000-SEM-SE 101508     901                      23     0.522           4.5 
+10 0000-SEM-SE 101508     902                      23     0.522           4.42
+# ℹ 395 more rows
+# ℹ 4 more variables: percent_failed_cur &lt;dbl&gt;, academic_degree &lt;chr&gt;,
+#   seniority &lt;dbl&gt;, sex &lt;chr&gt;</code></pre>
 </div>
+</div>
+<blockquote class="blockquote">
+<p>The instructor with one year of experience and the highest fail rate is teacher_id 104362, and the instructor with one year of experience and the lowest fail rate is teacher_id 84689.</p>
+</blockquote>
 <p><strong>12. Which female instructors with either a doctorate or professional degree had the highest and lowest average percent of students responding to the evaluation across all their courses?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q11</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code chunk for Q11</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>teacher_evals_clean <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"female"</span>, academic_degree <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"dr"</span>, <span class="st">"prof"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(course_id, teacher_id) <span class="sc">|&gt;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_resp_share =</span> <span class="fu">mean</span>(resp_share)) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(avg_resp_share) <span class="sc">|&gt;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_resp_share))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Adding missing grouping variables: `course_id`, `teacher_id`</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,092 × 3
+# Groups:   course_id, teacher_id [334]
+   course_id   teacher_id avg_resp_share
+   &lt;chr&gt;       &lt;chr&gt;               &lt;dbl&gt;
+ 1 0000-SEM-SE 101508              0.522
+ 2 0000-SEM-SE 101508              0.522
+ 3 0000-SEM-SE 101508              0.522
+ 4 0000-SEM-SE 101508              0.522
+ 5 0000-SEM-SE 101508              0.522
+ 6 0000-SEM-SE 101508              0.522
+ 7 PPM1NP001P  76394               0.490
+ 8 PPM1NP001P  76394               0.490
+ 9 PPM1NP001P  76394               0.490
+10 PPM1NP001P  76394               0.490
+# ℹ 2,082 more rows</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The female instructor that has either a doctorate or professional degree with the highest average percent of students responding to evaluations is teacher_id 101508. The one with the lowest is teacher_id 3485.</p>
+</blockquote>
 </section>
 </section>
 

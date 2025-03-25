@@ -177,7 +177,7 @@ head(teacher_evals, 8)
 head(teacher_evals, 6)
 ```
 
-> It appears as if one row in the dataset measures answers for a single question for a particular course.
+> It appears that one row in the dataset measures answers for a single question for a particular course.
 
 **5. Use _one_ `dplyr` pipeline to clean the data by:**
 
@@ -268,8 +268,14 @@ ggpubr::ggarrange(p1, p2, nrow = 2)
 ```{r}
 #| label: teacher-course-asked-every-question
 # code chunk for Q8
-
+teacher_evals_clean |>
+  group_by(teacher_id, course_id) |>
+  count() |>
+  filter(n >= 9)
+  
 ```
+
+> There were 48 teacher-course combinations that asked all nine questions.
 
 ## Rate my Professor
 
@@ -278,21 +284,44 @@ ggpubr::ggarrange(p1, p2, nrow = 2)
 ```{r}
 #| label: question-1-high-low
 # code chunk for Q9
+teacher_evals_clean |>
+  group_by(teacher_id) |>
+  filter(question_no == "901") |> 
+  mutate(avg_score = mean(SET_score_avg)) |>
+  select(avg_score) |>
+  arrange(desc(avg_score))
 
 ```
+
+> The instructors with the lowest average SET score for question 1 are 100132 and 54201. There are a lot of instructors with a high average rating for question 1 across all of their course (many average scores of 5).
 
 **11. Which instructors with one year of experience had the highest and lowest average percentage of students failing in the current semester across all their courses?**
 
 ```{r}
 #| label: one-year-experience-failing-students
 # code chunk for Q10
+teacher_evals_clean |>
+  filter(seniority == 1) |>
+  arrange(!desc(percent_failed_cur))
+
 
 ```
+
+> The instructor with one year of experience and the highest fail rate is teacher_id 104362, and the instructor with one year of experience and the lowest fail rate is teacher_id 84689.
 
 **12. Which female instructors with either a doctorate or professional degree had the highest and lowest average percent of students responding to the evaluation across all their courses?**
 
 ```{r}
 #| label: female-instructor-student-response
 # code chunk for Q11
+teacher_evals_clean |>
+  filter(sex == "female", academic_degree %in% c("dr", "prof")) |>
+  group_by(course_id, teacher_id) |>
+  mutate(avg_resp_share = mean(resp_share)) |>
+  select(avg_resp_share) |>
+  arrange(desc(avg_resp_share))
+
 
 ```
+
+> The female instructor that has either a doctorate or professional degree with the highest average percent of students responding to evaluations is teacher_id 101508. The one with the lowest is teacher_id 3485.
